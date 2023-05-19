@@ -29,10 +29,17 @@ const calculateClamp = (minValue, maxValue, minViewport, maxViewport, root) => {
   return `clamp(${min}, ${preferred}, ${max})`;
 }
 
+let minViewport = 375; // Default Breakpoint
+let maxViewport = 1920; // Default Breakpoint
+
+// Check if there are custom breakpoints passed as command line arguments
+if (process.argv.length > 2) {
+  minViewport = Number(process.argv[2]);
+  maxViewport = Number(process.argv[3]);
+}
+
 rl.question('minimum value: ', minValue => {
   rl.question('maximum value: ', maxValue => {
-    const minViewport = 375; // Default Breakpoint
-    const maxViewport = 1920; // Default Breakpoint
     const root = 16; // Base size
     const result = calculateClamp(minValue, maxValue, minViewport, maxViewport, root);
     const comment = `/* viewport ${minViewport}px - ${maxViewport}px - value: ${minValue}px - ${maxValue}px */`;
